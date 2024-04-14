@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-// import second, { redirect, Link, useNavigate, useLocation } from 'react-router-dom'
+import second, { redirect, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from "../components/FormContainer"
@@ -19,10 +19,12 @@ function ShippingScreen({ history }) {
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
     const [country, setCountry] = useState(shippingAddress.country)
 
+    let navigate = useNavigate()
+
     const submitHandler = (e) => {
       e.preventDefault()
       dispatch(saveShippingAddress({address, city, postalCode, country }))
-      navigator('/payment')
+      navigate('/payment')
     }
 
   return (
