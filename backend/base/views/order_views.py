@@ -11,13 +11,14 @@ from base.serializers import ProductSerializer, OrderItemSerializer
 from rest_framework import status
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def addOrderItems(request):
 
     user = request.user
     data = request.data
 
     orderItems = data['orderItems']
+    
 
     if orderItems and len(orderItems) == 0:
         return Response({'detail':'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
@@ -59,8 +60,8 @@ def addOrderItems(request):
 
         # (4) Update stock
 
-        product.countInStock -= item.qty
+        product.countInStock -= int(item.qty)
         product.save()
 
-    serializer = OrderItemSerializer(order, many=True)
-    return Response(serializer.data)
+        serializer = OrderItemSerializer(order, many=False)
+        return Response(serializer.data)
